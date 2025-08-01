@@ -1,4 +1,8 @@
+// widgets/custom_drawer.dart
 import 'package:flutter/material.dart';
+import '../screens/manage_projects_screen.dart';
+import '../screens/manage_tasks_screen.dart';
+import '../screens/about_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final Function(String) onItemClick;
@@ -12,7 +16,6 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          // Top 25% "Menu" section
           Container(
             height: screenHeight * 0.25,
             width: double.infinity,
@@ -23,59 +26,71 @@ class CustomDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 24, color: Colors.white),
             ),
           ),
-
-          // List tiles with bottom borders
           Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey.withOpacity(0.4),
-                  width: 1,
-                ),
-              ),
-            ),
+            decoration: _borderedTile(),
             child: ListTile(
               leading: Icon(Icons.folder),
               title: Text("Projects"),
-              onTap: () => onItemClick("Projects pressed"),
+              onTap: () {
+                Navigator.pop(context); // Close drawer first
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManageProjectsScreen(),
+                  ),
+                );
+              },
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey.withOpacity(0.4),
-                  width: 1,
-                ),
-              ),
-            ),
+            decoration: _borderedTile(),
             child: ListTile(
               leading: Icon(Icons.task),
               title: Text("Tasks"),
-              onTap: () => onItemClick("Tasks pressed"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManageTasksScreen(),
+                  ),
+                );
+              },
             ),
           ),
-
-          // Spacer pushes About to the bottom
           Spacer(),
-
-          // About with top border
           Container(
             decoration: BoxDecoration(
               border: Border(
-                top: BorderSide(
-                  color: Colors.grey.withOpacity(0.4),
-                  width: 1,
-                ),
+                top: BorderSide(color: Colors.grey.withOpacity(0.4), width: 1),
               ),
             ),
             child: ListTile(
               leading: Icon(Icons.info_outline),
               title: Text("About"),
-              onTap: () => onItemClick("About pressed"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutScreen(),
+                  ),
+                );
+              },
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  BoxDecoration _borderedTile() {
+    return BoxDecoration(
+      border: Border(
+        bottom: BorderSide(
+          color: Colors.grey.withOpacity(0.4),
+          width: 1,
+        ),
       ),
     );
   }
